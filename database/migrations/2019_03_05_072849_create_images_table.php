@@ -19,6 +19,7 @@ class CreateImagesTable extends Migration
             $table->string('title')->nullable(false);
             $table->string('link')->unique()->nullable(false);
             $table->unsignedBigInteger('article_id');
+            $table->softDeletes();
             $table->foreign('article_id')->references('id')->on('articles');
         });
     }

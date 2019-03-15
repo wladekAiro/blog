@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('title')->nullable(false);
             $table->string('body');
             $table->string('slug')->unique()->nullable(false);
+            $table->softDeletes();
         });
     }
 
