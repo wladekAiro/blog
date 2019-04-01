@@ -14,7 +14,8 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        return Article::all();
+        $articles = Article::all();
+        return view('admin.stories.list');
     }
 
     /**
@@ -25,6 +26,8 @@ class ArticlesController extends Controller
     public function create()
     {
         //
+        $action = "Create";
+        return view('admin.stories.form');
     }
 
     /**
@@ -47,7 +50,8 @@ class ArticlesController extends Controller
     public function show($id)
     {
         //
-        return Article::findOrFail($id);
+        $article =  Article::findOrFail($id);
+        return view('admin.stories.view');
     }
 
     /**
