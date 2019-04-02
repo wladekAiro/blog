@@ -5,6 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property mixed body
+ * @property mixed title
+ * @property string slug
+ */
 class Article extends Model
 {
 
