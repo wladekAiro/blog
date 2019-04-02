@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SlugHelper;
 use Illuminate\Http\Request;
 use \App\Article;
 
 class ArticlesController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +27,7 @@ class ArticlesController extends Controller
     public function index()
     {
         $articles = Article::all();
-        return view('admin.stories.list');
+        return view('admin.stories.list' , $articles);
     }
 
     /**
@@ -38,7 +50,25 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+
+//        if ($validator->fails()) {
+//            return redirect('/article/create')
+//                ->withErrors($validator)
+//                ->withInput();
+//        }
+
+        $article = new Article();
+        $article->title = $request['title'];
+        $article->body = $request['body'];
+        $article->slug = (new SlugHelper)->slugify($request['title']);
+
+        $article->save();
+
+        return $article;
     }
 
     /**
