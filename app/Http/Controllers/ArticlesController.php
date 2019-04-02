@@ -27,7 +27,7 @@ class ArticlesController extends Controller
     public function index()
     {
         $articles = Article::all();
-        return view('admin.stories.list' , $articles);
+        return view('admin.stories.list')->with('articles' , $articles);
     }
 
     /**
@@ -55,12 +55,6 @@ class ArticlesController extends Controller
             'body' => 'required',
         ]);
 
-//        if ($validator->fails()) {
-//            return redirect('/article/create')
-//                ->withErrors($validator)
-//                ->withInput();
-//        }
-
         $article = new Article();
         $article->title = $request['title'];
         $article->body = $request['body'];
@@ -81,7 +75,7 @@ class ArticlesController extends Controller
     {
         //
         $article =  Article::findOrFail($id);
-        return view('admin.stories.view');
+        return view('admin.stories.view' , $article);
     }
 
     /**

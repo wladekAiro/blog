@@ -10,10 +10,28 @@
                 <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp"
                        placeholder="Title">
                 <small id="title" class="form-text text-muted">Provide title.</small>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
             </div>
             <div class="form-group">
                 <label for="body">Body</label>
                 <textarea class="form-control" id="body" name="body"></textarea>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
             </div>
             <div class="form-group">
                 <label for="exampleFormControlFile1">Main Photo/picture</label>
