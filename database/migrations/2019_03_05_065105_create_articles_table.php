@@ -19,7 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('title')->nullable(false);
             $table->longText('body');
             $table->string('slug' , 10)->unique()->nullable(false);
-            $table->smallInteger('status' , false)->nullable(false);
+            $table->smallInteger('status' , false)->default(0)->nullable(false);
             $table->softDeletes();
         });
     }
