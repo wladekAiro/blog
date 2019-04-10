@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ArticleStatus;
 use App\Helpers\SlugHelper;
 use Illuminate\Http\Request;
 use \App\Article;
@@ -60,6 +61,7 @@ class ArticlesController extends Controller
         $article->title = $request['title'];
         $article->body = $request['body'];
         $article->slug = (new SlugHelper)->slugify($request['title']);
+        $article->status = ArticleStatus::Pending;
 
         $writer  = Auth::user();
 
