@@ -18,7 +18,8 @@ class CreateArticlesTable extends Migration
             $table->timestamps();
             $table->string('title')->nullable(false);
             $table->longText('body');
-            $table->string('slug')->unique()->nullable(false);
+            $table->string('slug' , 10)->unique()->nullable(false);
+            $table->smallInteger('status' , false)->nullable(false);
             $table->softDeletes();
         });
     }
