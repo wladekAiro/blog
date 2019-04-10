@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\SlugHelper;
 use Illuminate\Http\Request;
 use \App\Article;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -60,7 +61,11 @@ class ArticlesController extends Controller
         $article->body = $request['body'];
         $article->slug = (new SlugHelper)->slugify($request['title']);
 
+        $writer  = Auth::user();
+
         $article->save();
+
+        $article->user()->sync($writer);
 
         return $article;
     }
