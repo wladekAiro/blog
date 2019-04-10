@@ -71,7 +71,7 @@ class ArticlesController extends Controller
 
         $article->user()->sync($writer);
 
-        return view('admin.stories.view', $article);
+        return view('admin.stories.view')->with('article' , $article);
     }
 
     /**
