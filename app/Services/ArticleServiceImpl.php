@@ -12,12 +12,13 @@ namespace App\Services;
 use \App\Article;
 use App\Enums\ArticleStatus;
 use App\Helpers\SlugHelper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleServiceImpl implements ArticleService
 {
 
-    public function create($article)
+    public function create(Request $request)
     {
         // TODO: Implement create() method.
         $generatedSlug = (new SlugHelper)->slugify($request['title']);
@@ -25,7 +26,7 @@ class ArticleServiceImpl implements ArticleService
         $article = new Article();
         $article->title = $request['title'];
         $article->body = $request['body'];
-        $article->slug = mt_rand(1000, 9999999) . "-" . $generatedSlug;
+        $article->slug = mt_rand(100, 9999999) . "-" . $generatedSlug;
         $article->status = ArticleStatus::Pending;
 
         $writer = Auth::user();
@@ -52,10 +53,15 @@ class ArticleServiceImpl implements ArticleService
     public function getArticleViewModel($slug)
     {
         // TODO: Implement getArticleViewModel() method.
+        $article = Article::where('slug', '=', $slug)->first();
+
+        return $article;
     }
 
     public function getAllViewModels()
     {
         // TODO: Implement getAllViewModels() method.
+
+        $articles = Article::all();
     }
 }

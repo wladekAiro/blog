@@ -9,9 +9,11 @@
 namespace App\Services;
 
 
+use Illuminate\Http\Request;
+
 interface ArticleService
 {
-    public function create($article);
+    public function create(Request $article);
     public function getById($id);
     public function update($article);
     public function getArticleViewModel($slug);
