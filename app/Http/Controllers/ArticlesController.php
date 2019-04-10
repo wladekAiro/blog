@@ -29,7 +29,7 @@ class ArticlesController extends Controller
     public function index()
     {
         $articles = Article::all();
-        return view('admin.stories.list')->with('articles' , $articles);
+        return view('admin.stories.list')->with('articles', $articles);
     }
 
     /**
@@ -47,7 +47,7 @@ class ArticlesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -57,38 +57,40 @@ class ArticlesController extends Controller
             'body' => 'required',
         ]);
 
+        $generatedSlug = (new SlugHelper)->slugify($request['title']);
+
         $article = new Article();
         $article->title = $request['title'];
         $article->body = $request['body'];
-        $article->slug = (new SlugHelper)->slugify($request['title']);
+        $article->slug = mt_rand(1000, 9999999) . "-" . $generatedSlug;
         $article->status = ArticleStatus::Pending;
 
-        $writer  = Auth::user();
+        $writer = Auth::user();
 
         $article->save();
 
         $article->user()->sync($writer);
 
-        return $article;
+        return view('admin.stories.view', $article);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-        $article =  Article::findOrFail($id);
-        return view('admin.stories.view' , $article);
+        $article = Article::findOrFail($id);
+        return view('admin.stories.view', $article);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -99,8 +101,8 @@ class ArticlesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -111,7 +113,7 @@ class ArticlesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
