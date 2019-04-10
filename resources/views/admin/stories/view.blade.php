@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('content')
 <!-- Page Heading -->
-<div class="col-md-10 col-sm-5 col-lg-10">
+<div class="col-md-12 col-sm-6 col-lg-12">
     <div class="card">
-        <div class="card-title">
-            {{ article['title'] }}
-        </div>
         <div class="card-body">
-            {{ article['body'] }}
+            <div class="card-title">
+                <h3>{{ $article['title'] }}</h3>
+            </div>
+            {{ $article['body'] }}
         </div>
     </div>
 </div>
