@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\ArticleStatus;
 use App\Helpers\SlugHelper;
+use App\Services\ArticleService;
+use App\Services\ArticleServiceImpl;
 use Illuminate\Http\Request;
 use \App\Article;
 use Illuminate\Support\Facades\Auth;
@@ -57,19 +59,9 @@ class ArticlesController extends Controller
             'body' => 'required',
         ]);
 
-        $generatedSlug = (new SlugHelper)->slugify($request['title']);
+        $articleService  = new ArticleServiceImpl();
 
-        $article = new Article();
-        $article->title = $request['title'];
-        $article->body = $request['body'];
-        $article->slug = mt_rand(1000, 9999999) . "-" . $generatedSlug;
-        $article->status = ArticleStatus::Pending;
-
-        $writer = Auth::user();
-
-        $article->save();
-
-        $article->user()->sync($writer);
+        $article = $articleService->create($request);
 
         return view('admin.stories.view')->with('article' , $article);
     }
@@ -83,7 +75,8 @@ class ArticlesController extends Controller
     public function show($id)
     {
         //
-        $article = Article::findOrFail($id);
+        $articleService  = new ArticleServiceImpl();
+        $article = $articleService->getById($id);
         return view('admin.stories.view', $article);
     }
 
