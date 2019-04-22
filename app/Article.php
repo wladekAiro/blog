@@ -33,7 +33,7 @@ class Article extends Model
     /**
      * The users that belong to the article
      */
-    public function user(){
+    public function users(){
         return $this->belongsToMany('App\User' , 'user_articles');
     }
 }
