@@ -12,17 +12,15 @@ namespace App\Services;
 use \App\Article;
 use App\Enums\ArticleStatus;
 use App\Helpers\SlugHelper;
-use App\ViewModels\ArticleViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\Null_;
 
 class ArticleServiceImpl implements ArticleService
 {
 
     public function create(Request $request)
     {
+        // TODO: Implement create() method.
         $generatedSlug = (new SlugHelper)->slugify($request['title']);
 
         $article = new Article();
@@ -35,7 +33,7 @@ class ArticleServiceImpl implements ArticleService
 
         $article->save();
 
-        $article->users()->sync($writer);
+        $article->user()->sync($writer);
 
         return $article;
     }
@@ -57,23 +55,7 @@ class ArticleServiceImpl implements ArticleService
         // TODO: Implement getArticleViewModel() method.
         $article = Article::where('slug', '=', $slug)->first();
 
-        $users = $article->users();
-
-        $slug = $article['slug'];
-        $title = $article['title'];
-        $body = $article['body'];
-        $imageUrl = $article->images()[0]['link'];
-        $status = ArticleStatus::getKey($article['status']);
-        $writerName = Null;
-        $writerId = Null;
-        $editorName = Null;
-        $editorId = Null;
-
-
-        $articleViewModel = new ArticleViewModel($slug , $title , $body , $status , $imageUrl , $writerName ,
-            $editorName , $writerId , $editorId);
-
-        return $articleViewModel;
+        return $article;
     }
 
     public function getAllViewModels()
